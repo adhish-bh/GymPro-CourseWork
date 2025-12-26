@@ -299,7 +299,6 @@ try {
                 (DefaultTableModel) sessionTable.getModel();
 
         model.addRow(new Object[]{
-            sessionList.size(),
             session.getSessionName(),
             session.getTrainerName(),
             session.getSessionType(),

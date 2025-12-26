@@ -288,7 +288,6 @@ try {
                 (DefaultTableModel) productTable.getModel();
 
         model.addRow(new Object[]{
-            productList.size(),
             product.getProductName(),
             product.getCategory(),
             product.getPrice(),

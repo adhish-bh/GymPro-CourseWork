@@ -278,7 +278,6 @@ try {
                 (DefaultTableModel) exerciseTable.getModel();
 
         model.addRow(new Object[]{
-            exerciseList.size(),
             ex.getName(),
             ex.getMuscleGroup(),
             ex.getDifficulty(),

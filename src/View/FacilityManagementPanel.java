@@ -260,7 +260,6 @@ facilityTable.setRowSorter(sorter);
                 (DefaultTableModel) facilityTable.getModel();
 
         model.addRow(new Object[]{
-            facilityList.size(),
             facility.getFacilityName(),
             facility.getFacilityType(),
             facility.getAvailability(),
