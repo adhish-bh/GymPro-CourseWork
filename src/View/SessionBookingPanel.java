@@ -136,7 +136,7 @@ try {
         DefaultTableModel model =
                 (DefaultTableModel) sessionTable.getModel();
 
-        model.setValueAt(session.getCapacity(), modelRow, 5);
+        model.setValueAt(session.getCapacity(), modelRow, 4);
 
         JOptionPane.showMessageDialog(this,
                 "Session booked successfully!",

@@ -386,11 +386,11 @@ try {
         DefaultTableModel model =
                 (DefaultTableModel) sessionTable.getModel();
 
-        model.setValueAt(session.getSessionName(), modelRow, 1);
-        model.setValueAt(session.getTrainerName(), modelRow, 2);
-        model.setValueAt(session.getSessionType(), modelRow, 3);
-        model.setValueAt(session.getTime(), modelRow, 4);
-        model.setValueAt(session.getCapacity(), modelRow, 5);
+        model.setValueAt(session.getSessionName(), modelRow, 0);
+        model.setValueAt(session.getTrainerName(), modelRow, 1);
+        model.setValueAt(session.getSessionType(), modelRow, 2);
+        model.setValueAt(session.getTime(), modelRow, 3);
+        model.setValueAt(session.getCapacity(), modelRow, 4);
 
     } catch (NumberFormatException e) {
         JOptionPane.showMessageDialog(this,

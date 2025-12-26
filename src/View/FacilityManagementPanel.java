@@ -337,10 +337,10 @@ try {
         DefaultTableModel model =
                 (DefaultTableModel) facilityTable.getModel();
 
-        model.setValueAt(facility.getFacilityName(), modelRow, 1);
-        model.setValueAt(facility.getFacilityType(), modelRow, 2);
-        model.setValueAt(facility.getAvailability(), modelRow, 3);
-        model.setValueAt(facility.getCapacity(), modelRow, 4);
+        model.setValueAt(facility.getFacilityName(), modelRow, 0);
+        model.setValueAt(facility.getFacilityType(), modelRow, 1);
+        model.setValueAt(facility.getAvailability(), modelRow, 2);
+        model.setValueAt(facility.getCapacity(), modelRow, 3);
 
     } catch (NumberFormatException e) {
         JOptionPane.showMessageDialog(this,

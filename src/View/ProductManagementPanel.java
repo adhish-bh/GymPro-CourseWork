@@ -371,11 +371,11 @@ int row = productTable.getSelectedRow();
         DefaultTableModel model =
                 (DefaultTableModel) productTable.getModel();
 
-        model.setValueAt(product.getProductName(), modelRow, 1);
-        model.setValueAt(product.getCategory(), modelRow, 2);
-        model.setValueAt(product.getPrice(), modelRow, 3);
-        model.setValueAt(product.getStock(), modelRow, 4);
-        model.setValueAt(product.getStatus(), modelRow, 5);
+        model.setValueAt(product.getProductName(), modelRow, 0);
+        model.setValueAt(product.getCategory(), modelRow, 1);
+        model.setValueAt(product.getPrice(), modelRow, 2);
+        model.setValueAt(product.getStock(), modelRow, 3);
+        model.setValueAt(product.getStatus(), modelRow, 4);
 
     } catch (NumberFormatException e) {
         JOptionPane.showMessageDialog(this,

@@ -326,10 +326,10 @@ try {
         DefaultTableModel model =
                 (DefaultTableModel) exerciseTable.getModel();
 
-        model.setValueAt(ex.getName(), modelRow, 1);
-        model.setValueAt(ex.getMuscleGroup(), modelRow, 2);
-        model.setValueAt(ex.getDifficulty(), modelRow, 3);
-        model.setValueAt(ex.getEquipment(), modelRow, 4);
+        model.setValueAt(ex.getName(), modelRow, 0);
+        model.setValueAt(ex.getMuscleGroup(), modelRow, 1);
+        model.setValueAt(ex.getDifficulty(), modelRow, 2);
+        model.setValueAt(ex.getEquipment(), modelRow, 3);
 
     } catch (IllegalArgumentException e) {
         JOptionPane.showMessageDialog(this,

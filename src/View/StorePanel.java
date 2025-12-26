@@ -147,7 +147,7 @@ public class StorePanel extends javax.swing.JPanel {
         DefaultTableModel model =
                 (DefaultTableModel) productTable.getModel();
 
-        model.setValueAt(product.getStock(), modelRow, 4);
+        model.setValueAt(product.getStock(), modelRow, 3);
 
         JOptionPane.showMessageDialog(this,
                 "Purchase successful!",
