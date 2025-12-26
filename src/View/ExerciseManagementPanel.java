@@ -297,45 +297,57 @@ try {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-try {
-        int row = exerciseTable.getSelectedRow();
-        if (row == -1) {
-            throw new IllegalArgumentException("Select a row to update");
-        }
+DefaultTableModel model = (DefaultTableModel) exerciseTable.getModel();
+    int row = exerciseTable.getSelectedRow();
 
-        int modelRow = exerciseTable.convertRowIndexToModel(row);
-
-        String name = exerciseNameField.getText().trim();
-        String muscle = muscleGroupField.getText().trim();
-
-        if (!name.matches("[a-zA-Z ]+")) {
-            throw new IllegalArgumentException("Invalid exercise name");
-        }
-
-        if (!muscle.matches("[a-zA-Z ]+")) {
-            throw new IllegalArgumentException("Invalid muscle group");
-        }
-
-        Exercise ex = exerciseList.get(modelRow);
-        ex.setName(name);
-        ex.setMuscleGroup(muscle);
-        ex.setDifficulty(difficultyCombo.getSelectedItem().toString());
-        ex.setEquipment(equipmentField.getText().trim());
-
-        DefaultTableModel model =
-                (DefaultTableModel) exerciseTable.getModel();
-
-        model.setValueAt(ex.getName(), modelRow, 0);
-        model.setValueAt(ex.getMuscleGroup(), modelRow, 1);
-        model.setValueAt(ex.getDifficulty(), modelRow, 2);
-        model.setValueAt(ex.getEquipment(), modelRow, 3);
-
-    } catch (IllegalArgumentException e) {
-        JOptionPane.showMessageDialog(this,
-                e.getMessage(),
-                "Update Error",
-                JOptionPane.ERROR_MESSAGE);
+    if (row == -1) {
+        JOptionPane.showMessageDialog(this, "Select an exercise to update.");
+        return;
     }
+
+    // Read new values from input fields
+    String newName = exerciseNameField.getText().trim();
+    String newMuscle = muscleGroupField.getText().trim();
+    String newDifficulty = difficultyCombo.getSelectedItem().toString(); // or .getSelectedItem()
+    String newEquipment = equipmentField.getText().trim();
+
+    // Basic validation
+    if (newName.isEmpty() || newMuscle.isEmpty() || newDifficulty.isEmpty() || newEquipment.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Please fill in all fields before updating.");
+        return;
+    }
+
+    // Get original identifier from selected row
+    String oldName = model.getValueAt(row, 0).toString();
+
+    // Find the real object in the DataStore
+    Exercise target = null;
+    for (Exercise e : DataStore.exercises) {
+        if (e.getName().equalsIgnoreCase(oldName)) {
+            target = e;
+            break;
+        }
+    }
+
+    if (target == null) {
+        JOptionPane.showMessageDialog(this, "Exercise not found; could not update.");
+        return;
+    }
+
+    // Update object using setters
+    target.setName(newName);
+    target.setMuscleGroup(newMuscle);
+    target.setDifficulty(newDifficulty);
+    target.setEquipment(newEquipment);
+
+    // Update table row to show new values
+    model.setValueAt(target.getName(), row, 0);
+    model.setValueAt(target.getMuscleGroup(), row, 1);
+    model.setValueAt(target.getDifficulty(), row, 2);
+    model.setValueAt(target.getEquipment(), row, 3);
+
+    JOptionPane.showMessageDialog(this, "Exercise updated.");
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -347,8 +359,20 @@ try {
         return;
     }
 
+    // Confirm deletion
+    int confirm = JOptionPane.showConfirmDialog(
+            this,
+            "Are you sure you want to delete this exercise?",
+            "Confirm Delete",
+            JOptionPane.YES_NO_OPTION
+    );
+    if (confirm != JOptionPane.YES_OPTION) return;
+
+    // Grab the unique identifier from the selected row
+    // (Column 0 is Exercise Name in your current table)
     String name = model.getValueAt(row, 0).toString();
 
+    // Find matching Exercise in the DataStore list
     Exercise toRemove = null;
     for (Exercise e : DataStore.exercises) {
         if (e.getName().equalsIgnoreCase(name)) {
@@ -358,7 +382,9 @@ try {
     }
 
     if (toRemove != null) {
+        // Remove from data store
         DataStore.exercises.remove(toRemove);
+        // Remove from table view
         model.removeRow(row);
         JOptionPane.showMessageDialog(this, "Exercise deleted.");
     } else {
