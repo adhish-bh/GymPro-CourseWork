@@ -284,23 +284,31 @@ facilityTable.setRowSorter(sorter);
     }    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-int row = facilityTable.getSelectedRow();
+ DefaultTableModel model = (DefaultTableModel) facilityTable.getModel();
+    int row = facilityTable.getSelectedRow();
 
     if (row == -1) {
-        JOptionPane.showMessageDialog(this,
-                "Please select a facility to delete",
-                "Delete Error",
-                JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Select a facility to delete.");
         return;
     }
 
-    int modelRow = facilityTable.convertRowIndexToModel(row);
+    String name = model.getValueAt(row, 0).toString();
 
-    facilityList.remove(modelRow);
+    Facility toRemove = null;
+    for (Facility f : DataStore.facilities) {
+        if (f.getFacilityName().equalsIgnoreCase(name)) {
+            toRemove = f;
+            break;
+        }
+    }
 
-    DefaultTableModel model =
-            (DefaultTableModel) facilityTable.getModel();
-    model.removeRow(modelRow);
+    if (toRemove != null) {
+        DataStore.facilities.remove(toRemove);
+        model.removeRow(row);
+        JOptionPane.showMessageDialog(this, "Facility deleted.");
+    } else {
+        JOptionPane.showMessageDialog(this, "Facility not found.");
+    }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

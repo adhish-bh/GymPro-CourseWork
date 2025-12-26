@@ -339,23 +339,31 @@ try {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-  int row = exerciseTable.getSelectedRow();
+  DefaultTableModel model = (DefaultTableModel) exerciseTable.getModel();
+    int row = exerciseTable.getSelectedRow();
 
     if (row == -1) {
-        JOptionPane.showMessageDialog(this,
-                "Please select a row to delete",
-                "Delete Error",
-                JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Select an exercise to delete.");
         return;
     }
 
-    int modelRow = exerciseTable.convertRowIndexToModel(row);
+    String name = model.getValueAt(row, 0).toString();
 
-    exerciseList.remove(modelRow);
+    Exercise toRemove = null;
+    for (Exercise e : DataStore.exercises) {
+        if (e.getName().equalsIgnoreCase(name)) {
+            toRemove = e;
+            break;
+        }
+    }
 
-    DefaultTableModel model =
-            (DefaultTableModel) exerciseTable.getModel();
-    model.removeRow(modelRow);
+    if (toRemove != null) {
+        DataStore.exercises.remove(toRemove);
+        model.removeRow(row);
+        JOptionPane.showMessageDialog(this, "Exercise deleted.");
+    } else {
+        JOptionPane.showMessageDialog(this, "Exercise not found.");
+    }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void sortByNameBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortByNameBtnActionPerformed

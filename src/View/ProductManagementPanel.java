@@ -315,23 +315,31 @@ try {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-int row = productTable.getSelectedRow();
+DefaultTableModel model = (DefaultTableModel) productTable.getModel();
+    int row = productTable.getSelectedRow();
 
     if (row == -1) {
-        JOptionPane.showMessageDialog(this,
-                "Please select a product to delete",
-                "Delete Error",
-                JOptionPane.WARNING_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Select a product to delete.");
         return;
     }
 
-    int modelRow = productTable.convertRowIndexToModel(row);
+    String name = model.getValueAt(row, 0).toString();
 
-    productList.remove(modelRow);
+    Product toRemove = null;
+    for (Product p : DataStore.products) {
+        if (p.getProductName().equalsIgnoreCase(name)) {
+            toRemove = p;
+            break;
+        }
+    }
 
-    DefaultTableModel model =
-            (DefaultTableModel) productTable.getModel();
-    model.removeRow(modelRow);
+    if (toRemove != null) {
+        DataStore.products.remove(toRemove);
+        model.removeRow(row);
+        JOptionPane.showMessageDialog(this, "Product deleted.");
+    } else {
+        JOptionPane.showMessageDialog(this, "Product not found.");
+    }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

@@ -327,23 +327,51 @@ try {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-int row = sessionTable.getSelectedRow();
+DefaultTableModel model = (DefaultTableModel) sessionTable.getModel();
+    int selectedRow = sessionTable.getSelectedRow();
 
-    if (row == -1) {
-        JOptionPane.showMessageDialog(this,
-                "Please select a session to delete",
-                "Delete Error",
-                JOptionPane.WARNING_MESSAGE);
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Please select a row to delete.");
         return;
     }
 
-    int modelRow = sessionTable.convertRowIndexToModel(row);
+    int confirm = JOptionPane.showConfirmDialog(
+            this,
+            "Are you sure you want to delete this record?",
+            "Confirm Delete",
+            JOptionPane.YES_NO_OPTION
+    );
 
-    sessionList.remove(modelRow);
+    if (confirm != JOptionPane.YES_OPTION) return;
 
-    DefaultTableModel model =
-            (DefaultTableModel) sessionTable.getModel();
-    model.removeRow(modelRow);
+    try {
+        // Get the UNIQUE value from the selected row (Session Name)
+        String selectedName = model.getValueAt(selectedRow, 0).toString();
+
+        // Remove from DataStore list (source of truth)
+        Session target = null;
+        for (Session s : DataStore.sessions) {
+            if (s.getSessionName().equalsIgnoreCase(selectedName)) {
+                target = s;
+                break;
+            }
+        }
+
+        if (target == null) {
+            JOptionPane.showMessageDialog(this, "Record not found in list.");
+            return;
+        }
+
+        DataStore.sessions.remove(target);
+
+        // Remove from table UI
+        model.removeRow(selectedRow);
+
+        JOptionPane.showMessageDialog(this, "Deleted successfully!");
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Delete failed: " + e.getMessage());
+    }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
